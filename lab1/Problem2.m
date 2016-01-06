@@ -6,27 +6,27 @@
 % Last Updated on: 6th January, 2015
 % 
 % Question 
-% y' * y'' + 1 + (y')^2 = 0
-% y(0) = 1
-% y(1) = 2
-% a0 = 0.5;
-% a1 = 1;
-% h = 0.2;
-% expected result (alpha) = 2.0
+% y'' = y
+% y(0) = 0
+% y(1) = 1
+% a0 = 0.3;
+% a1 = 0.4;
+% h = 0.1;
+% expected result (alpha) = 0.85
 
 x0 = 0;
 xn = 1;
 
-y0 = 1;
-yn = 2;
+y0 = 0;
+yn = 1;
 
-a0 = 0.5;
-a1 = 1;
+a0 = 0.3;
+a1 = 0.4;
 
 
-h = 0.2;
+h = 0.1;
 
-d = @(x,Y) ((-Y(2)^2 -1)/Y(1));
+d = @(x,Y) (Y(1));
 
 % Generates derivative function for IVP
 f_derivative = function_generator(d);
