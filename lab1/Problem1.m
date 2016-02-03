@@ -36,10 +36,14 @@ legend_vals = {};
 while abs(a0-a1)>exp(-7)
     [~, y_vals]  = ivp_n_order(x0, [y0;a0], h, f_derivative, xn);
 
+    disp(strcat('a0=', num2str(a0)))
+    disp(y_vals)
     predicted_y_a0 = y_vals(1,end);
 
     [x_vals, y_vals]  = ivp_n_order(x0, [y0;a1], h, f_derivative, xn);
 
+    disp(strcat('a1=', num2str(a1)))
+    disp(y_vals)
     predicted_y_a1 = y_vals(1,end);
 
     a_new = a1 - (a1-a0)*(predicted_y_a1 - yn)/(predicted_y_a1 - predicted_y_a0);

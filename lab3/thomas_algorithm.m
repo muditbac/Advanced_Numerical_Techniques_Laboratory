@@ -9,9 +9,9 @@
 % 
 % Input:
 % mat_A -  tridiagonal matrix containing the coefficients of equations
+% b - RHS of the equations
 % Returns:
-% r_fn - returns function which inputs x and Y and returns derivative of
-% y and all other derivatives.
+% output_args - Solution of the equations
 
 function [ output_args ] = thomas_algorithm( mat_A,b )
     
@@ -27,7 +27,7 @@ function [ output_args ] = thomas_algorithm( mat_A,b )
         mat_A(i-1,:) = mat_A(i-1,:) - fac*mat_A(i,:);
         b(i-1,:) = b(i-1,:) - fac*b(i,:);
     end
-    
+
     output_args = b ./ diag(mat_A);
 
 end

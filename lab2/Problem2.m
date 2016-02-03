@@ -42,9 +42,11 @@ for i=1:(l-2),
     vec_b(i) = di_x(x(i+1));
 end
 
+vec_b(1) = vec_b(1) - ai_x(x(1+1)) * y0;
+vec_b(l-2) = vec_b(l-2) - ci_x(x((l-2) + 1)) * yn;
+disp(mat_A)
 
 mat_A = mat_A(1:l-2,1:l-2);
-
 y = [y0;zeros(l-2,1);yn];
 
 % Solves tridigonal equations using Thomas Algorithm

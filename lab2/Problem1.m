@@ -12,7 +12,7 @@ Ax = @(x)(0);
 Bx = @(x)(-1);
 Cx = @(x)(x);
 
-h = 0.1;
+h = 0.25;
 
 x0 = 0;
 y0 = 0;
@@ -43,6 +43,8 @@ for i=1:(l-2),
     vec_b(i) = di_x(x(i+1));
 end
 
+vec_b(1) = vec_b(1) - ai_x(x(1+1)) * y0;
+vec_b(l-2) = vec_b(l-2) - ci_x(x((l-2) + 1)) * yn;
 
 mat_A = mat_A(1:l-2,1:l-2);
 
