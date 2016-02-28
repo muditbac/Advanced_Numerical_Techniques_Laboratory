@@ -1,5 +1,4 @@
-% This code solves a boundary value problem using finite difference and
-% thomas algorithm
+% This code solves a boundary value problem using thomas algorithm
 % 
 % Author: Mudit Bachhawat
 % Roll: 13MA20023
@@ -55,7 +54,7 @@ mat_A(l, l) = bi_x(x(l));
 vec_b(l) = di_x(x(l));
 
 vec_b(1) = vec_b(1) + 2* ai_x(x(1)) * gamma1 * h / beta1;
-vec_b(l) = vec_b(l-1) + 2* ci_x(x(l-1)) * gamma2 * h / beta2;
+vec_b(l) = vec_b(l) + 2* ci_x(x(l-1)) * gamma2 * h / beta2;
 
 
 mat_A(1,1) = mat_A(1,1) + 2 * ai_x(x(1)) * alpha1 * h / beta1;

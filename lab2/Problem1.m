@@ -48,6 +48,8 @@ vec_b(l-2) = vec_b(l-2) - ci_x(x((l-2) + 1)) * yn;
 
 mat_A = mat_A(1:l-2,1:l-2);
 
+disp(mat_A)
+
 y = [y0;zeros(l-2,1);yn];
 
 % Solves tridigonal equations using Thomas Algorithm
