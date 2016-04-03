@@ -1,23 +1,22 @@
-% Solve non linear BVP using Newton Linearization Technique
+% Solve non linear BVP using Quasi Linearization Technique
 % 
 % 
 % Author: Mudit Bachhawat
 % Creation Date: 25th Feburary, 2015
-% Last Updated on: 27th Feburary, 2015
+% Last Updated on: 12th March, 2015
 % 
 % 
 % y''' + yy'' + 1 - (y')^2 = 0
 % y(0) = 0, y'(0) = 0
 % y'(10) = 1
 
-h = .02;
+h = .2;
 
-a = @(x,wm1,w,wp1)([0 (1/(h*h)-w(1)/(2*h)); (-1) (-h/2)]);
-b = @(x,wm1,w,wp1)([ (wp1(2)-wm1(2))/(2*h) (-2/(h*h)-2*w(2)); (1) (-h/2) ]);
-c = @(x,wm1,w,wp1)([0 (1/(h*h)+w(1)/(2*h)); 0 0]);
+a = @(x,wm1,w,wp1)([-1 -h/2; 0 1/(h*h)-w(1)/(2*h)]);
+b = @(x,wm1,w,wp1)([ 1 -h/2; (wp1(2)-wm1(2))/(2*h) -2/(h*h)-2*w(2)]);
+c = @(x,wm1,w,wp1)([ 0 0   ; 0 (1/(h*h) + w(1)/(2*h))]);
 
-d = @(x,wm1,w,wp1)([(-1+(w(2))^2-w(1)*(wp1(2)-wm1(2))/(2*h)-(wp1(2)+wm1(2)-2*w(2))/(h*h))
-    (-w(1)+wm1(1)+(h/2)*(w(2)+wm1(2)))]);
+d = @(x,wm1,w,wp1)([ 0 (-1-(w(2))^2+w(1)*(wp1(2)-wm1(2))/(2*h))]);
 
 
 x = 0:h:10;
@@ -36,12 +35,14 @@ mat_A = zeros(2,2,n-1, n-1);
 vec_b = zeros(2,1, n-1);
 
 legend_vals = {'k =0'};
-plot(x,w(1,:),'-.', 'LineWidth',1);
+plot(x,w(:,:),'-.', 'LineWidth',1);
 hold on;
 
 dw = 1;
+wo = 2;
 k = 0;
-while max(max(abs(dw)))>1e-5,
+
+while max(max(abs(w-wo)))>1e-5,
     k = k+1;
 
     for i=2:n,
@@ -54,11 +55,14 @@ while max(max(abs(dw)))>1e-5,
 
     mat_A = mat_A(:,:,1:n-1,1:n-1);
 
+    vec_b(:,:,n-1) = vec_b(:,:,n-1) - c(x(i), w(:,i-1), w(:,i), w(:,i+1))*[0;1];
+    
     dw = thomas_algorithm_block(mat_A,vec_b);
     
     % Using backward difference method
-    dw = [[0;0] dw [0;0]];
-    w = w + dw;
+    dw = [[0;0] dw [0;1]];
+    wo = w;
+    w = dw;
 
     yn = (2*h*w(2,end)+4*w(1,end-1)-w(1,end-2))/3;
     w(1,end) = yn;
@@ -67,7 +71,14 @@ while max(max(abs(dw)))>1e-5,
     p = plot(x,w(1,:),'-.', 'LineWidth',1);
     
     legend_vals = [legend_vals (strcat('k = ',num2str(k)))];    
+
+    % Preventing from infinite loop
+    if k==50,
+        break
+    end
+    
 end
+
 
 set(p, 'LineWidth',1.5, 'LineStyle', '-')
 xlabel('X Axis');
