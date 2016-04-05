@@ -1,1 +1,0 @@
-These code were developed by Mudit Bachhawat during course of Advance Numerical Techniques Laboratory on 6th Semester at Indian Institute of Technology, Kharagpur. This code is written on MATLAB and organizes by labs assignments.
